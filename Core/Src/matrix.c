@@ -13,10 +13,6 @@ static matrix_row_t matrix_debouncing[MATRIX_ROWS];
 
 //static matrix_row_t read_cols(void);
 //static void init_cols(void);
-static void unselect_rows(uint8_t row);
-static void select_row(uint8_t row);
-
-
 
 uint8_t matrix_rows(void)
 {
@@ -100,7 +96,12 @@ bool matrix_is_on(uint8_t row, uint8_t col)
 
 inline matrix_row_t matrix_get_row(uint8_t row)
 {
-    return matrix[row];
+    matrix_row_t matrix_row = 0;
+    select_row(row);
+    HAL_Delay(1); // without this wait read unstable value.
+    matrix_row = read_cols();
+    unselect_rows(row);
+    return matrix_row;
 }
 //
 //void matrix_print(void)
@@ -177,16 +178,9 @@ matrix_row_t read_cols(void)
            ((HAL_GPIO_ReadPin(COL13_GPIO_Port, COL13_Pin)==1) ? (1<<13):0);
 }
 
-/* Row pin configuration
-    复位每行的电平为低电平
- */
+/* 复位每行的电平为低电平 */
 static void unselect_rows(uint8_t row)
 {
-//    HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(ROW1_GPIO_Port, ROW1_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(ROW2_GPIO_Port, ROW2_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(ROW3_GPIO_Port, ROW3_Pin, GPIO_PIN_RESET);
-//    HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, GPIO_PIN_RESET);
 	switch (row) {
 		case 0:
 			HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, GPIO_PIN_RESET);
@@ -206,10 +200,9 @@ static void unselect_rows(uint8_t row)
 	}
 }
 
-/* 设置每行的输出电平为高电平*/
+/* 设置每行的输出电平为高电平 */
 static void select_row(uint8_t row)
 {
-    // Output low to select
     switch (row) {
         case 0:
         	HAL_GPIO_WritePin(ROW0_GPIO_Port, ROW0_Pin, GPIO_PIN_SET);

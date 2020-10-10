@@ -25,9 +25,6 @@ static report_keyboard_t *keyboard_report = &(report_keyboard_t){};
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 void send_keyboard_report(void) {
-//    keyboard_report->mods  = real_mods;
-//    keyboard_report->mods |= weak_mods;
-
     USBD_HID_SendReport(&hUsbDeviceFS, keyboard_report, 8);
 }
 
@@ -37,14 +34,11 @@ void clear(void){
 		uint8_t report[8] = {0,0,0,0,0,0,0,0};
 	    USBD_HID_SendReport(&hUsbDeviceFS, report, 8);
 	}
-
-
 }
 
 
 void action_exec(keyevent_t event)
 {
-
     if (IS_NOEVENT(event)) { return; }
     uint8_t layer = 0;
 
@@ -53,13 +47,10 @@ void action_exec(keyevent_t event)
 
     if (event.pressed) {
         register_code(action.key.code);
-
-    } 
+    }
     else {
         unregister_code(action.key.code);
-
     }
-
 }
 
 
@@ -73,12 +64,11 @@ void register_code(uint8_t code)
     }
     else if IS_KEY(code) {
         add_key(code);
-        send_keyboard_report();
     }
     else if IS_MOD(code) {
-        add_mods(MOD_BIT(code));
-        send_keyboard_report();
+        add_mods(MOD_BIT(code))
     }
+    send_keyboard_report();
 }
 
 void unregister_code(uint8_t code)
@@ -88,19 +78,12 @@ void unregister_code(uint8_t code)
     }
     else if IS_KEY(code) {
         del_key(code);
-        send_keyboard_report();
     }
     else if IS_MOD(code) {
         del_mods(MOD_BIT(code));
-        send_keyboard_report();
     }
+    send_keyboard_report();
 }
-
-
-/*
- * debug print
- */
-
 
 /* local functions */
 void add_key(uint8_t code)
@@ -162,6 +145,17 @@ void del_key(uint8_t code)
                 if (cb_count == 0) {
                     // reset head and tail
                     cb_tail = cb_head = 0;
+                    break;
+                }
+                if (i == cb_head) {
+                    // left shift when next to tail
+                    do {
+                        if (keyboard_report->keys[RO_INC(cb_head)] != 0) {
+                            break;
+                        }
+                        cb_head = RO_INC(cb_head);
+                    } while (cb_tail != cb_head);
+                    break;
                 }
                 if (i == RO_DEC(cb_tail)) {
                     // left shift when next to tail
@@ -171,24 +165,18 @@ void del_key(uint8_t code)
                             break;
                         }
                     } while (cb_tail != cb_head);
+                    break;
                 }
-                break;
             }
             i = RO_INC(i);
         } while (i != cb_tail);
     }
 }
 
-
 /* modifier */
-uint8_t get_mods(void) { return real_mods; }
 void add_mods(uint8_t mods) {
-	real_mods |= mods;
-	keyboard_report->mods  = real_mods;
+	keyboard_report->mods  = mods;
 }
 void del_mods(uint8_t mods) {
-	real_mods &= ~mods;
-	keyboard_report->mods  = real_mods;
+	keyboard_report->mods  ^= mods;
 }
-void set_mods(uint8_t mods) { real_mods = mods; }
-void clear_mods(void) { real_mods = 0; }

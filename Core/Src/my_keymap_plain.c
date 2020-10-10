@@ -24,15 +24,18 @@ static const uint8_t keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         {KC_LSFT,KC_Z,   KC_X,   KC_C,   KC_V,   KC_B,   KC_N,   KC_M,   KC_COMM,KC_DOT, KC_SLSH,KC_GRV ,KC_INS ,KC_DEL},
         {KC_LCTL,KC_LGUI,KC_LALT,KC_NO,  KC_SPC,  KC_NO, KC_NO, KC_ENT,  KC_NO,  KC_NO,  KC_LEFT,KC_UP  ,KC_DOWN,KC_RGHT}
     },
-    /* 0: 3*9 keymap
-     * | E | 1 | 2 |
-     * ,------------
-     * |Tab|1/!| 2 |
-     * |-----------|
-     * |Cap| Q | W |
-     * |-----------|
-     * |Shi|Ctr|Alt|
-     * |-----------|
+    /* 1: F layer
+     * ,------------------------------------------------------------------------.
+     * |NULL| F1 | F2 | F3 | F4 | F5 | F6 | F7 | F8 | F9 | F10 | F11 | F12 |NULL|
+     * |-------------------------- ---------------------------------------------|
+     * |Tab  | Q | W | E | R | T | | Y | U | I | O | P | [ | ] |Hom|
+     * |-------------------------- --------------------------------|
+     * |Ctrl | A | S | D | F | G | | H | J | K | L | ; | ' | \ |End|
+     * |-------------------------- --------------------------------|
+     * |Shift| Z | X | C | V | B | | N | M | , | . | / | ` |INS|Del|
+     * |-------------------------- --------------------------------|
+     * |Ctr|Gui |Alt |   Space   | |     Enter     |Rig|Up |Dow|Lef|
+     * `-------------------------- --------------------------------'
      */
     {
         {KC_TAB, KC_1,   KC_2},
