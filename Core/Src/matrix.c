@@ -3,13 +3,18 @@
 
 
 #ifndef DEBOUNCE
-#   define DEBOUNCE 5
+#   define DEBOUNCE 3
 #endif
-static uint8_t debouncing = 5;
+static uint8_t debouncing = 3;
 
 /* matrix state(1:on, 0:off) */
 static matrix_row_t matrix[MATRIX_ROWS];
 static matrix_row_t matrix_debouncing[MATRIX_ROWS];
+
+static void unselect_rows(uint8_t row);
+
+static void select_row(uint8_t row);
+
 
 //static matrix_row_t read_cols(void);
 //static void init_cols(void);
@@ -63,7 +68,7 @@ uint8_t matrix_scan(void)
         matrix_row_t cols = read_cols();
         if (matrix_debouncing[i] != cols) {
             matrix_debouncing[i] = cols;
-            matrix[i] = matrix_debouncing[i];
+//            matrix[i] = matrix_debouncing[i];
 
             debouncing = DEBOUNCE;
         }
@@ -96,12 +101,12 @@ bool matrix_is_on(uint8_t row, uint8_t col)
 
 inline matrix_row_t matrix_get_row(uint8_t row)
 {
-    matrix_row_t matrix_row = 0;
-    select_row(row);
-    HAL_Delay(1); // without this wait read unstable value.
-    matrix_row = read_cols();
-    unselect_rows(row);
-    return matrix_row;
+//    matrix_row_t matrix_row = 0;
+//    select_row(row);
+//    HAL_Delay(1); // without this wait read unstable value.
+//    matrix_row = read_cols();
+//    unselect_rows(row);
+    return matrix[row];
 }
 //
 //void matrix_print(void)
@@ -179,7 +184,7 @@ matrix_row_t read_cols(void)
 }
 
 /* 复位每行的电平为低电平 */
-static void unselect_rows(uint8_t row)
+void unselect_rows(uint8_t row)
 {
 	switch (row) {
 		case 0:
@@ -201,7 +206,7 @@ static void unselect_rows(uint8_t row)
 }
 
 /* 设置每行的输出电平为高电平 */
-static void select_row(uint8_t row)
+void select_row(uint8_t row)
 {
     switch (row) {
         case 0:

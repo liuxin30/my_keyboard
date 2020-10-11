@@ -44,8 +44,8 @@ my-keyboard.bin \
 all: my-keyboard.elf secondary-outputs
 
 # 工具调用
-my-keyboard.elf: $(OBJS) $(USER_OBJS) D:\STM32CubeIDE\Projects\my-keyboard\STM32F411CEUX_FLASH.ld
-	arm-none-eabi-gcc -o "my-keyboard.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\STM32CubeIDE\Projects\my-keyboard\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="my-keyboard.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+my-keyboard.elf: $(OBJS) $(USER_OBJS) D:\Project\my_keyboard\STM32F411CEUX_FLASH.ld
+	arm-none-eabi-gcc -o "my-keyboard.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"D:\Project\my_keyboard\STM32F411CEUX_FLASH.ld" --specs=nosys.specs -Wl,-Map="my-keyboard.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo '已结束构建目标： $@'
 	@echo ' '
 

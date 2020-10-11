@@ -23,17 +23,19 @@ void keyboard_init(void)
 void keyboard_task(void)
 {
 	static matrix_row_t matrix_prev[MATRIX_ROWS];
+	static uint8_t is_change = 0;
     matrix_row_t matrix_row = 0;
     matrix_row_t matrix_change = 0;
-    uint8_t is_null = 0;
+//    uint8_t is_null = 0;
 
-//    matrix_scan();
+    matrix_scan();
     for (uint8_t r = 0; r < MATRIX_ROWS; r++) {
 
-        matrix_row = matrix_get_row(i);
+        matrix_row = matrix_get_row(r);
 
         matrix_change = matrix_row ^ matrix_prev[r];
         if (matrix_change) {
+        	is_change = 1;
 //        	matrix_prev[r] = matrix_row;
             matrix_row_t col_mask = 1;
             for (uint8_t c = 0; c < MATRIX_COLS; c++, col_mask <<= 1 ) {
@@ -45,16 +47,21 @@ void keyboard_task(void)
                     };
                     action_exec(e);
 
-                    record a processed key
+                    // record a processed key
                     matrix_prev[r] ^= col_mask;
                 }
             }
         }
-        if(matrix_row == 0){
-        	is_null++;
-        }
+//        if(matrix_row == 0){
+//        	is_null++;
+//        }
     }
-    if(is_null == 5){
-    	clear();
+    if (is_change == 1){
+    	send_keyboard_report();
+    	is_change = 0;
     }
+
+//    if(is_null == 5){
+//    	clear();
+//    }
 }

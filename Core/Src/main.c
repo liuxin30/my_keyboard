@@ -91,7 +91,7 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
-
+  keyboard_init();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -101,7 +101,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	  keyboard_init();
 	  keyboard_task();
   }
   /* USER CODE END 3 */

@@ -53,9 +53,6 @@ void matrix_print(void);
 void matrix_clear(void);
 matrix_row_t read_cols(void);
 
-static void unselect_rows(uint8_t row);
-static void select_row(uint8_t row);
-
 
 #ifdef __cplusplus
 }

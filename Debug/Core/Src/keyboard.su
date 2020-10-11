@@ -1,3 +1,3 @@
-keyboard.c:12:6:keyboard_setup	8	static
-keyboard.c:17:6:keyboard_init	8	static
-keyboard.c:26:6:keyboard_task	24	static
+keyboard.c:9:6:keyboard_setup	8	static
+keyboard.c:14:6:keyboard_init	8	static
+keyboard.c:23:6:keyboard_task	24	static

@@ -5,8 +5,6 @@
 #include "keymap.h"
 #include "usbd_hid.h"
 
-static uint8_t real_mods = 0;
-static uint8_t weak_mods = 0;
 
 static uint8_t press = 0;
 
@@ -66,9 +64,10 @@ void register_code(uint8_t code)
         add_key(code);
     }
     else if IS_MOD(code) {
-        add_mods(MOD_BIT(code))
+        add_mods(MOD_BIT(code));
     }
-    send_keyboard_report();
+
+//    send_keyboard_report();
 }
 
 void unregister_code(uint8_t code)
@@ -82,7 +81,7 @@ void unregister_code(uint8_t code)
     else if IS_MOD(code) {
         del_mods(MOD_BIT(code));
     }
-    send_keyboard_report();
+//    send_keyboard_report();
 }
 
 /* local functions */

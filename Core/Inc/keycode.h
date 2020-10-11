@@ -10,8 +10,7 @@
 #define IS_ANY(code)             (KC_A         <= (code) && (code) <= 0xFF)
 
 
-#define IS_KEY(code)             ((KC_A         <= (code) && (code) <= KC_EXSEL) || \
-                                  (KC_KP_00     <= (code) && (code) <= KC_KP_HEXADECIMAL))
+#define IS_KEY(code)             (KC_A         <= (code) && (code) <= KC_EXSEL)
 
 #define IS_MOD(code)             (KC_LCTRL     <= (code) && (code) <= KC_RGUI)
 
