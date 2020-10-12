@@ -174,8 +174,8 @@ void del_key(uint8_t code)
 
 /* modifier */
 void add_mods(uint8_t mods) {
-	keyboard_report->mods  = mods;
+	keyboard_report->mods |= mods;
 }
 void del_mods(uint8_t mods) {
-	keyboard_report->mods  ^= mods;
+	keyboard_report->mods ^= mods;
 }
