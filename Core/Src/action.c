@@ -16,6 +16,7 @@ static int8_t cb_head = 0;
 static int8_t cb_tail = 0;
 static int8_t cb_count = 0;
 
+
 // TODO: pointer variable is not needed
 //report_keyboard_t keyboard_report = {};
 static report_keyboard_t *keyboard_report = &(report_keyboard_t){};
@@ -37,8 +38,18 @@ void clear(void){
 
 void action_exec(keyevent_t event)
 {
+	static uint8_t layer = 0;
     if (IS_NOEVENT(event)) { return; }
-    uint8_t layer = 0;
+
+    if (event.key.row == 4 && event.key.col == 10){
+    	if (layer == 0 ){
+    		layer = 1;
+    	}
+    	else{
+    		layer = 0;
+    	}
+    	return;
+    }
 
     action_t action = action_for_key(layer, event.key);
     //dprint("ACTION: "); debug_action(action);
