@@ -8,7 +8,6 @@
 #define MATRIX_ROWS  5
 #define MATRIX_COLS  14
 
-
 #if (MATRIX_COLS <= 8)
 typedef  uint8_t    matrix_row_t;
 #elif (MATRIX_COLS <= 16)
@@ -22,9 +21,6 @@ typedef  uint32_t   matrix_row_t;
 #if (MATRIX_ROWS > 255)
 #error "MATRIX_ROWS must not exceed 255"
 #endif
-
-#define MATRIX_IS_ON(row, col)  (matrix_get_row(row) && (1<<col))
-
 
 #ifdef __cplusplus
 extern "C" {
@@ -40,7 +36,6 @@ void matrix_setup(void);
 void matrix_init(void);
 /* scan all key states on matrix */
 uint8_t matrix_scan(void);
-void delay_us(void);
 /* whether modified from previous scan. used after matrix_scan. */
 bool matrix_is_modified(void) __attribute__ ((deprecated));
 /* whether a swtich is on */
@@ -52,7 +47,6 @@ void matrix_print(void);
 /* clear matrix */
 void matrix_clear(void);
 matrix_row_t read_cols(void);
-
 
 #ifdef __cplusplus
 }

@@ -1,12 +1,9 @@
-
 #include "keycode.h"
 #include "keyboard.h"
 #include "action.h"
 #include "keymap.h"
 #include "usbd_hid.h"
 
-
-static uint8_t press = 0;
 
 #define RO_ADD(a, b) ((a + b) % KEYBOARD_REPORT_KEYS)
 #define RO_SUB(a, b) ((a - b + KEYBOARD_REPORT_KEYS) % KEYBOARD_REPORT_KEYS)
@@ -15,7 +12,7 @@ static uint8_t press = 0;
 static int8_t cb_head = 0;
 static int8_t cb_tail = 0;
 static int8_t cb_count = 0;
-
+static uint8_t layer = 0;
 
 // TODO: pointer variable is not needed
 //report_keyboard_t keyboard_report = {};
@@ -27,39 +24,35 @@ void send_keyboard_report(void) {
     USBD_HID_SendReport(&hUsbDeviceFS, keyboard_report, 8);
 }
 
-void clear(void){
-	if(press == 0)
-	{
-		uint8_t report[8] = {0,0,0,0,0,0,0,0};
-	    USBD_HID_SendReport(&hUsbDeviceFS, report, 8);
-	}
+void switch_layer(void){
+    if (layer == 0 ){
+        layer = 1;
+    }
+    else{
+        layer = 0;
+    }
 }
 
-
-void action_exec(keyevent_t event)
+uint8_t action_exec(keyevent_t event)
 {
-	static uint8_t layer = 0;
+
     if (IS_NOEVENT(event)) { return; }
 
-    if (event.key.row == 4 && event.key.col == 10){
-    	if (layer == 0 ){
-    		layer = 1;
-    	}
-    	else{
-    		layer = 0;
-    	}
-    	return;
-    }
-
-    action_t action = action_for_key(layer, event.key);
+    uint8_t code = keymap_key_to_keycode(layer, event.key);
     //dprint("ACTION: "); debug_action(action);
 
+    if (code == KC_APP){
+        switch_layer();
+        return 0;
+    }
+
     if (event.pressed) {
-        register_code(action.key.code);
+        register_code(code);
     }
     else {
-        unregister_code(action.key.code);
+        unregister_code(code);
     }
+    return 1;
 }
 
 
@@ -77,8 +70,6 @@ void register_code(uint8_t code)
     else if IS_MOD(code) {
         add_mods(MOD_BIT(code));
     }
-
-//    send_keyboard_report();
 }
 
 void unregister_code(uint8_t code)
@@ -92,7 +83,6 @@ void unregister_code(uint8_t code)
     else if IS_MOD(code) {
         del_mods(MOD_BIT(code));
     }
-//    send_keyboard_report();
 }
 
 /* local functions */

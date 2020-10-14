@@ -40,7 +40,10 @@ extern "C" {
 #endif
 
 /* Execute action per keyevent */
-void action_exec(keyevent_t event);
+uint8_t action_exec(keyevent_t event);
+
+/* Utilities for layer  */
+void switch_layer(void);
 
 /* Utilities for actions.  */
 void register_code(uint8_t code);

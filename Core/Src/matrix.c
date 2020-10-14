@@ -37,26 +37,13 @@ uint8_t matrix_cols(void)
 #define LED_TGL()   do { palTogglePad(GPIOC, GPIOC_LED); } while (0)
 #endif
 
-/* Maple Mini */
-#ifdef BOARD_MAPLEMINI_STM32_F103
-#define LED_ON()    do { palSetPad(GPIOB, 1) ;} while (0)
-#define LED_OFF()   do { palClearPad(GPIOB, 1); } while (0)
-#define LED_TGL()   do { palTogglePad(GPIOB, 1); } while (0)
-#endif
-
 void matrix_init(void)
 {
-    // initialize row and col
-//    init_rows();
-//    init_cols();
-
     // initialize matrix state: all keys off
     for (uint8_t i=0; i < MATRIX_ROWS; i++) {
         matrix[i] = 0;
         matrix_debouncing[i] = 0;
     }
-
-
 }
 
 uint8_t matrix_scan(void)
@@ -68,7 +55,6 @@ uint8_t matrix_scan(void)
         matrix_row_t cols = read_cols();
         if (matrix_debouncing[i] != cols) {
             matrix_debouncing[i] = cols;
-//            matrix[i] = matrix_debouncing[i];
 
             debouncing = DEBOUNCE;
         }
@@ -88,11 +74,6 @@ uint8_t matrix_scan(void)
     return 1;
 }
 
-void delay_us(void){
-	uint8_t n=30;
-	while(n--);
-}
-
 bool matrix_is_on(uint8_t row, uint8_t col)
 {
     return (matrix[row] & ((matrix_row_t)1<<col));
@@ -101,11 +82,6 @@ bool matrix_is_on(uint8_t row, uint8_t col)
 
 inline matrix_row_t matrix_get_row(uint8_t row)
 {
-//    matrix_row_t matrix_row = 0;
-//    select_row(row);
-//    HAL_Delay(1); // without this wait read unstable value.
-//    matrix_row = read_cols();
-//    unselect_rows(row);
     return matrix[row];
 }
 //
