@@ -58,6 +58,6 @@ void keyboard_task(void)
     }
     if (is_changed == 1 && ret == 1){
     	send_keyboard_report();
-    	is_change = 0;
+    	is_changed = 0;
     }
 }

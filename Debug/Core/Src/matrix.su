@@ -1,10 +1,9 @@
 matrix.c:22:9:matrix_rows	4	static
 matrix.c:28:9:matrix_cols	4	static
-matrix.c:47:6:matrix_init	16	static
-matrix.c:62:9:matrix_scan	16	static
-matrix.c:91:6:delay_us	16	static
-matrix.c:96:6:matrix_is_on	16	static
-matrix.c:102:21:matrix_get_row	16	static
-matrix.c:168:14:read_cols	16	static
-matrix.c:187:6:unselect_rows	16	static
-matrix.c:209:6:select_row	16	static
+matrix.c:40:6:matrix_init	16	static
+matrix.c:49:9:matrix_scan	16	static
+matrix.c:77:6:matrix_is_on	16	static
+matrix.c:83:21:matrix_get_row	16	static
+matrix.c:144:14:read_cols	16	static
+matrix.c:166:6:unselect_rows	16	static
+matrix.c:191:6:select_row	16	static

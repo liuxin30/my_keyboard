@@ -156,7 +156,10 @@ matrix_row_t read_cols(void)
            ((HAL_GPIO_ReadPin(COL10_GPIO_Port, COL10_Pin)==1) ? (1<<10):0) |
            ((HAL_GPIO_ReadPin(COL11_GPIO_Port, COL11_Pin)==1) ? (1<<11):0) |
            ((HAL_GPIO_ReadPin(COL12_GPIO_Port, COL12_Pin)==1) ? (1<<12):0) |
-           ((HAL_GPIO_ReadPin(COL13_GPIO_Port, COL13_Pin)==1) ? (1<<13):0);
+           ((HAL_GPIO_ReadPin(COL13_GPIO_Port, COL13_Pin)==1) ? (1<<13):0) |
+           ((HAL_GPIO_ReadPin(COL14_GPIO_Port, COL14_Pin)==1) ? (1<<14):0) |
+           ((HAL_GPIO_ReadPin(COL15_GPIO_Port, COL15_Pin)==1) ? (1<<15):0) |
+           ((HAL_GPIO_ReadPin(COL16_GPIO_Port, COL16_Pin)==1) ? (1<<16):0);
 }
 
 /* 复位每行的电平为低电平 */
@@ -177,6 +180,9 @@ void unselect_rows(uint8_t row)
 			break;
 		case 4:
 			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, GPIO_PIN_RESET);
+			break;
+		case 5:
+			HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW5_Pin, GPIO_PIN_RESET);
 			break;
 	}
 }
@@ -199,6 +205,9 @@ void select_row(uint8_t row)
             break;
         case 4:
         	HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW4_Pin, GPIO_PIN_SET);
+            break;
+        case 5:
+        	HAL_GPIO_WritePin(ROW4_GPIO_Port, ROW5_Pin, GPIO_PIN_SET);
             break;
     }
 }

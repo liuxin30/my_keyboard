@@ -36,7 +36,7 @@ void switch_layer(void){
 uint8_t action_exec(keyevent_t event)
 {
 
-    if (IS_NOEVENT(event)) { return; }
+    if (IS_NOEVENT(event)) { return 0; }
 
     uint8_t code = keymap_key_to_keycode(layer, event.key);
     //dprint("ACTION: "); debug_action(action);
