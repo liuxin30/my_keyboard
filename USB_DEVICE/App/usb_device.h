@@ -83,6 +83,8 @@ void MX_USB_DEVICE_Init(void);
  */
 /* USER CODE BEGIN FD */
 void Send_Report(uint8_t *report);
+
+void Receive_Data(uint8_t *pbuf);
 /* USER CODE END FD */
 /**
   * @}

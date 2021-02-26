@@ -1,6 +1,7 @@
 "Core/Src/action.o"
 "Core/Src/gpio.o"
 "Core/Src/keyboard.o"
+"Core/Src/led.o"
 "Core/Src/main.o"
 "Core/Src/matrix.o"
 "Core/Src/my_keymap_plain.o"

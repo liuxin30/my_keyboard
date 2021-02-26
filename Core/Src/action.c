@@ -3,7 +3,8 @@
 #include "action.h"
 #include "keymap.h"
 #include "usbd_hid.h"
-
+#include "usb_device.h"
+#include "led.h"
 
 #define RO_ADD(a, b) ((a + b) % KEYBOARD_REPORT_KEYS)
 #define RO_SUB(a, b) ((a - b + KEYBOARD_REPORT_KEYS) % KEYBOARD_REPORT_KEYS)
@@ -17,11 +18,27 @@ static uint8_t layer = 0;
 // TODO: pointer variable is not needed
 //report_keyboard_t keyboard_report = {};
 static report_keyboard_t *keyboard_report = &(report_keyboard_t){};
+static uint8_t lock_status_prev;
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 void send_keyboard_report(void) {
-    USBD_HID_SendReport(&hUsbDeviceFS, keyboard_report, 8);
+	Send_Report(keyboard_report);
+}
+
+uint8_t get_lock_status(void) {
+	uint8_t lock_status;
+	Receive_Data(&lock_status);
+	return lock_status;
+}
+
+void set_led(void) {
+	uint8_t led;
+	led = get_lock_status();
+	if (led ^ lock_status_prev) {
+		led_set(led);
+		lock_status_prev = led;
+	};
 }
 
 void switch_layer(void){
@@ -180,3 +197,4 @@ void add_mods(uint8_t mods) {
 void del_mods(uint8_t mods) {
 	keyboard_report->mods ^= mods;
 }
+
